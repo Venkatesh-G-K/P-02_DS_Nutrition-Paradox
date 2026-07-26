@@ -1,3 +1,4 @@
+from pathlib import Path
 import urllib.parse
 from sqlalchemy import create_engine
 import pandas as pd
@@ -13,23 +14,46 @@ st.title("🌍 Nutrition Paradox: TiDB Analytics Dashboard")
 st.write("Select an analysis query below to execute it directly against your TiDB database.")
 
 # 2. Database Connection Setup (Cached for performance)
+# 2. Database Connection Setup (Cached for performance)
+
+from pathlib import Path
+from sqlalchemy import create_engine
+import urllib.parse
+
 @st.cache_resource
 def get_db_engine():
+
     USER = "3fCAZkkCNgfMxEa.root"
     PASSWORD = "h8F1E28rdnGOgobd"
     HOST = "gateway01.ap-southeast-1.prod.aws.tidbcloud.com"
     PORT = 4000
     DATABASE = "Nutrition_Paradox"
-    SSL_CA = r"D:\Data_Science\02_DS_Nutrition Paradox\isrgrootx1.pem"
 
-    encoded_password = urllib.parse.quote_plus(PASSWORD)
-    encoded_ssl_ca = urllib.parse.quote_plus(SSL_CA)
+    # SSL certificate in the same folder as app.py
+    ssl_cert = Path(__file__).resolve().parent / "isrgrootx1.pem"
+
+    if not ssl_cert.exists():
+        st.error(f"SSL Certificate not found:\n{ssl_cert}")
+        st.stop()
 
     connection_url = (
-        f"mysql+pymysql://{USER}:{encoded_password}@{HOST}:{PORT}/{DATABASE}"
-        f"?ssl_ca={encoded_ssl_ca}"
+        f"mysql+pymysql://{USER}:{urllib.parse.quote_plus(PASSWORD)}"
+        f"@{HOST}:{PORT}/{DATABASE}"
     )
-    return create_engine(connection_url)
+
+    engine = create_engine(
+        connection_url,
+        connect_args={
+            "ssl": {
+                "ca": str(ssl_cert)
+            }
+        },
+        pool_pre_ping=True,
+        pool_recycle=3600,
+        echo=False,
+    )
+
+    return engine
 
 engine = get_db_engine()
 
@@ -121,19 +145,34 @@ st.code(selected_sql, language="sql")
 # 5. Run Query and Render Results
 if st.button("🚀 Run Query"):
     try:
-        with engine.connect() as connection:
-            df_result = pd.read_sql(selected_sql, con=connection)
-            st.success(f"Query executed successfully! Rows returned: {len(df_result)}")
-            
-            # Display metrics or dataframe
-            st.dataframe(df_result, use_container_width=True)
-            
-            # Optional quick visualization if data is numeric and suitable
-            if len(df_result) > 1 and len(df_result.columns) >= 2:
-                numeric_cols = df_result.select_dtypes(include=['number']).columns
-                if len(numeric_cols) > 0 and len(df_result) < 100:
-                    st.markdown("### Quick Visual Chart")
-                    st.bar_chart(df_result.set_index(df_result.columns[0])[numeric_cols[0]])
-                    
+        with st.spinner("Executing query..."):
+            with engine.connect() as connection:
+                df_result = pd.read_sql(selected_sql, con=connection)
+
+        st.success(f"✅ Query executed successfully! Rows returned: {len(df_result)}")
+
+        # Display DataFrame
+        st.dataframe(df_result, use_container_width=True)
+
+        # Download CSV
+        csv = df_result.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            "📥 Download CSV",
+            csv,
+            "query_results.csv",
+            "text/csv"
+        )
+
+        # Quick Visualization
+        numeric_cols = [c for c in df_result.select_dtypes(include="number").columns if c != df_result.columns[0]]
+
+        if len(df_result) > 1 and len(df_result.columns) > 1 and len(df_result) <= 100 and numeric_cols:
+            st.markdown("### 📊 Quick Visual Chart")
+            st.bar_chart(
+                data=df_result,
+                x=df_result.columns[0],
+                y=numeric_cols[0]
+            )
+
     except Exception as e:
         st.error(f"❌ Error executing query: {e}")
