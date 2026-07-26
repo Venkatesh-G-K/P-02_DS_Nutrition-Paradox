@@ -1,16 +1,11 @@
 # 🌍 Nutrition Paradox: A Global View on Obesity and Malnutrition
 
-An end-to-end data science and analytics project exploring the dual burden of malnutrition and obesity across global populations, integrated with a cloud-native TiDB database, interactive Power BI dashboards, and a live Streamlit analytics app.
-
----
-
-## 🚀 Project Overview
-The "Nutrition Paradox" project investigates the simultaneous presence of undernutrition and obesity within countries, regions, and populations. This project covers data ingestion, cloud database warehousing (TiDB), exploratory data analysis via Python/SQL, and business intelligence reporting.
+An end-to-end data science and analytics project investigating the dual burden of malnutrition and obesity across global populations. Integrated with a cloud-native TiDB database, interactive Power BI dashboards, and a live Streamlit analytics web application.
 
 ---
 
 ## 🛠️ Tech Stack & Tools
-* **Database & Cloud:** TiDB Cloud (MySQL compatible), SQLAlchemy, PyMySQL, `mysql-connector-python`
+* **Database & Cloud:** TiDB Cloud (MySQL compatible), SQLAlchemy, PyMySQL
 * **Data Processing & Analysis:** Python, Pandas, Jupyter Notebooks
 * **Web Application:** Streamlit
 * **Data Visualization & BI:** Power BI Desktop (`.pbix`)
@@ -23,22 +18,21 @@ The "Nutrition Paradox" project investigates the simultaneous presence of undern
 ```text
 02_DS_NUTRITION PARADOX/
 │
-├── data/                       # Cleaned raw datasets (.csv)
+├── data/                       # Raw dataset files (CSV)
 │   ├── malnutrition.csv
 │   └── obesity.csv
 │
-├── notebooks/                  # Jupyter notebooks for exploratory data analysis
+├── notebooks/                  # Jupyter notebooks for exploratory analysis
 │   └── Nutrition_Paradox.ipynb
 │
-├── reports/                    # Documentation and dashboards
-│   ├── Nutrition Paradox_ A Global View on Obesity and Malnutrition.docx
-│   └── Nutrition_Paradox.pbix
+├── requirements/               # Project documentation and specifications
+│   └── Nutrition Paradox_ A Global View on Obesity and Malnutrition.docx
 │
-├── TiDB_security/              # SSL certificates for secure database connection
+├── TiDB_security/              # Secure SSL database certificates
 │   └── isrgrootx1.pem
 │
 ├── app.py                      # Streamlit interactive dashboard application
-├── main.py                     # Main ingestion and processing pipeline script
+├── Nutrition_Paradox.pbix      # Power BI business intelligence file
 ├── pyproject.toml              # Project configuration
-├── requirements.txt            # Python dependencies
+├── requirements.txt            # Python package dependencies
 └── README.md                   # Project documentation
