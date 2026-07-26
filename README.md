@@ -2,7 +2,7 @@
 
 An end-to-end data science and analytics project investigating the dual burden of malnutrition and obesity across global populations. Integrated with a cloud-native TiDB database, interactive Power BI dashboards, and a live Streamlit analytics web application.
 
----
+--- 
 
 ## 🛠️ Tech Stack & Tools
 * **Database & Cloud:** TiDB Cloud (MySQL compatible), SQLAlchemy, PyMySQL
