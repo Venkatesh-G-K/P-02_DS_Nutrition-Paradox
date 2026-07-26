@@ -1,0 +1,16 @@
+[project]
+name = "02-ds-nutrition-paradox-a-global-view-on-obesity-and-malnutrition"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "matplotlib>=3.11.0",
+    "mysql>=0.0.3",
+    "mysql-connector>=2.2.9",
+    "pandas>=3.0.3",
+    "pycountry>=26.2.16",
+    "pymysql>=1.2.0",
+    "requests>=2.34.2",
+    "sqlalchemy>=2.0.51",
+]

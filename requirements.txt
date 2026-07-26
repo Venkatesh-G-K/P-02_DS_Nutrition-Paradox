@@ -1,0 +1,8 @@
+pandas
+requests
+pycountry
+matplotlib
+sqlalchemy
+pymysql
+mysql-connector-python
+streamlit
