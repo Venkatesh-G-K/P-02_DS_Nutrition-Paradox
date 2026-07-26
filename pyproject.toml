@@ -1,16 +1,16 @@
 [project]
 name = "02-ds-nutrition-paradox-a-global-view-on-obesity-and-malnutrition"
 version = "0.1.0"
-description = "Add your description here"
+description = "A global view on obesity and malnutrition data science project"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.11"
 dependencies = [
     "matplotlib>=3.11.0",
-    "mysql>=0.0.3",
-    "mysql-connector>=2.2.9",
-    "pandas>=3.0.3",
-    "pycountry>=26.2.16",
+    "mysql-connector-python>=8.0.0",
+    "pandas>=2.0.0",
+    "pycountry>=22.0.0",
     "pymysql>=1.2.0",
-    "requests>=2.34.2",
-    "sqlalchemy>=2.0.51",
-]
+    "requests>=2.0.0",
+    "sqlalchemy>=2.0.0",
+    "streamlit>=1.0.0",
+    ]
